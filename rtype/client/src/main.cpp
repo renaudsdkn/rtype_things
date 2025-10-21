@@ -1,8 +1,8 @@
 #include <iostream>
 #include <stdexcept>
-#include "../include/client/GameClient.hpp"
+//#include "../include/client/GameClient.hpp"
 
-int main(void)
+/*int main(void)
 {
     try {
         GameClient client(800, 450, "R-Type Client ECS Intégration");
@@ -13,9 +13,8 @@ int main(void)
         return 84;
     }
     return 0;
-}
-
-/*#include "../include/client/client.hpp"
+}*/
+#include "../include/client/client.hpp"
 #include <iostream>
 
 int main() {
@@ -38,4 +37,4 @@ int main() {
 
     client.stop();
     return 0;
-}*/
+}

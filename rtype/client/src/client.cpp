@@ -112,8 +112,64 @@ void RTypeClient::handle_message(const PacketHeader *header, const uint8_t *data
         std::cout << "[CLIENT] PING_RESPONSE reçu." << std::endl;
         break;
     case MessageType::SNAPSHOT:
+    {
         std::cout << "[CLIENT] SNAPSHOT reçu (" << len << " octets)." << std::endl;
+
+        // --- Début de la Désérialisation ---
+        if (len < sizeof(uint32_t))
+        { // Vérifie s'il y a au moins la place pour le compteur
+            std::cerr << "[CLIENT ERROR] Snapshot trop petit pour contenir le nombre d'entités." << std::endl;
+            break;
+        }
+
+        const uint8_t *ptr = data; // Pointeur pour parcourir les données reçues
+
+        // 1. Lire le nombre d'entités (convertir depuis Big Endian)
+        uint32_t count = ntohl(*reinterpret_cast<const uint32_t *>(ptr));
+        ptr += sizeof(uint32_t);
+        size_t expected_size = sizeof(uint32_t) + count * sizeof(ProtocolData::entity_state); // Taille attendue du payload
+
+        if (len != expected_size)
+        {
+            std::cerr << "[CLIENT ERROR] Taille de Snapshot incohérente. Reçu: " << len
+                      << ", Attendu: " << expected_size << " pour " << count << " entités." << std::endl;
+            break;
+        }
+
+        std::cout << "  Contient " << count << " entités :" << std::endl;
+
+        // 2. Lire chaque entité
+        for (uint32_t i = 0; i < count; ++i)
+        {
+            // S'assurer qu'on ne dépasse pas la taille du buffer (sécurité)
+            if (ptr + sizeof(ProtocolData::entity_state) > data + len)
+            {
+                std::cerr << "[CLIENT ERROR] Dépassement de buffer lors de la lecture de l'entité " << i << std::endl;
+                break;
+            }
+
+            const ProtocolData::entity_state *state_ptr = reinterpret_cast<const ProtocolData::entity_state *>(ptr);
+
+            uint32_t entity_id = ntohl(state_ptr->id); // Convertir l'ID
+            uint8_t entity_type = state_ptr->type;
+            // Lire x et y (si tu les as ajoutés à entity_state)
+            float entity_x = state_ptr->x;
+            float entity_y = state_ptr->y;
+
+            // 3. Afficher les infos
+            std::cout << "    - Entité ID: " << entity_id
+                      << ", Type: " << static_cast<int>(entity_type)
+                       << ", Pos: (" << entity_x << ", " << entity_y << ")" // Décommente quand x,y sont là
+                      << std::endl;
+
+            ptr += sizeof(ProtocolData::entity_state); // Avancer le pointeur
+        }
+        // --- Fin de la Désérialisation ---
+
+        // Prochaine étape : Utiliser ces données pour mettre à jour l'ECS du client !
+
         break;
+    }
     case MessageType::ERROR:
         std::cout << "[CLIENT] ERROR reçu." << std::endl;
         break;

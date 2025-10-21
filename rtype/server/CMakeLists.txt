@@ -12,6 +12,8 @@ add_executable(r-type_server
     src/game_loop.cpp
     src/message_handler.cpp
     src/PlayerManager.cpp
+    src/room.cpp
+    src/GameManager.cpp
 
 )
 

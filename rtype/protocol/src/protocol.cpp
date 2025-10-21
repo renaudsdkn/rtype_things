@@ -107,34 +107,58 @@ const ProtocolData::Welcome &WelcomeMessage::getData() const
     return data_;
 }
 
-// ---------------- SNAPSHOT ----------------
+// --- SNAPSHOT ---
 SnapshotMessage::SnapshotMessage(const ProtocolData::Snapshot &snapshot)
     : data_(snapshot) {}
 
-ProtocolData::MessageType SnapshotMessage::getType() const
-{
+ProtocolData::MessageType SnapshotMessage::getType() const {
     return ProtocolData::MessageType::SNAPSHOT;
 }
 
-std::vector<uint8_t> SnapshotMessage::serialize() const
-{
-    ProtocolData::PacketHeader header{
-        static_cast<uint16_t>(sizeof(ProtocolData::PacketHeader) + sizeof(ProtocolData::Snapshot)),
-        static_cast<uint8_t>(ProtocolData::MessageType::SNAPSHOT)};
-    header.size = htons(header.size);
+// MODIFIÉ : Sérialisation manuelle
+std::vector<uint8_t> SnapshotMessage::serialize() const {
+    // Calculer la taille totale : header + nombre d'entités + (taille de chaque entité)
+    uint32_t numEntities = data_.entities.size();
+    uint16_t totalSize = sizeof(ProtocolData::PacketHeader) + sizeof(uint32_t) /* pour le count */
+                         + numEntities * sizeof(ProtocolData::entity_state); // Utilise la nouvelle taille
 
-    std::vector<uint8_t> buffer(sizeof(header) + sizeof(data_));
-    std::memcpy(buffer.data(), &header, sizeof(header));
-    std::memcpy(buffer.data() + sizeof(header), &data_, sizeof(data_));
+    ProtocolData::PacketHeader header;
+    header.size = htons(totalSize); // Convertir la taille totale
+    header.type = static_cast<uint8_t>(ProtocolData::MessageType::SNAPSHOT);
+
+    std::vector<uint8_t> buffer(totalSize);
+    uint8_t* ptr = buffer.data();
+
+    // 1. Écrire le header
+    std::memcpy(ptr, &header, sizeof(header));
+    ptr += sizeof(header);
+
+    // 2. Écrire le nombre d'entités (converti)
+    uint32_t netNumEntities = htonl(numEntities);
+    std::memcpy(ptr, &netNumEntities, sizeof(netNumEntities));
+    ptr += sizeof(netNumEntities);
+
+    // 3. Écrire chaque entité champ par champ
+    for (const auto& entity : data_.entities) {
+        uint32_t netId = htonl(entity.id); // Convertir l'ID
+        std::memcpy(ptr, &netId, sizeof(netId));
+        ptr += sizeof(netId);
+
+        std::memcpy(ptr, &entity.type, sizeof(entity.type)); // uint8_t n'a pas besoin de conversion
+        ptr += sizeof(entity.type);
+
+        // Copier les floats octet par octet (généralement sûr avec IEEE 754)
+        std::memcpy(ptr, &entity.x, sizeof(entity.x));
+        ptr += sizeof(entity.x);
+        std::memcpy(ptr, &entity.y, sizeof(entity.y));
+        ptr += sizeof(entity.y);
+    }
     return buffer;
 }
 
-size_t SnapshotMessage::size() const
-{
-    return sizeof(ProtocolData::PacketHeader) + sizeof(ProtocolData::Snapshot);
+size_t SnapshotMessage::size() const {
+    // Retourne la taille calculée comme dans serialize()
+     return sizeof(ProtocolData::PacketHeader) + sizeof(uint32_t)
+           + data_.entities.size() * sizeof(ProtocolData::entity_state);
 }
-
-const ProtocolData::Snapshot &SnapshotMessage::getData() const
-{
-    return data_;
-}
+const ProtocolData::Snapshot &SnapshotMessage::getData() const { return data_; }

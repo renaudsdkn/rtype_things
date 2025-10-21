@@ -47,6 +47,8 @@ namespace Protocol
         ProtocolData::MessageType getType() const override;
         std::vector<uint8_t> serialize() const override;
         size_t size() const override;
+
+        const ProtocolData::PlayerInput& getData() const { return data_; }
     };
 
     // --- WELCOME ---

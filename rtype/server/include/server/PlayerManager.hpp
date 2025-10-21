@@ -17,7 +17,7 @@ public:
     bool hasPlayer(const asio::ip::udp::endpoint& ep) const;
     void updatePlayerActivity(const asio::ip::udp::endpoint& ep);
     void removePlayer(const asio::ip::udp::endpoint& ep);
-    void removeInactivePlayers(std::chrono::seconds timeout);
+    std::vector<uint32_t> removeInactivePlayers(std::chrono::seconds timeout);
     void removePlayerById(uint32_t id);
     //std::optional<uint32_t> getPlayerIdByEndpoint(const asio::ip::udp::endpoint& ep) const;
     std::optional<uint32_t> getPlayerIdByEndpoint(const asio::ip::udp::endpoint& ep) const;

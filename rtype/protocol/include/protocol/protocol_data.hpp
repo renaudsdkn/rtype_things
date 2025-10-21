@@ -56,6 +56,7 @@ namespace ProtocolData {
     struct entity_state {
         uint32_t id;
         uint8_t type; //type d'entite : player, missile. enemy
+        float x,y;
     }__attribute__((packed));
 
     //en gros, c'est la game state

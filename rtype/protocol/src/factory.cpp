@@ -38,17 +38,51 @@ std::unique_ptr<IMessage> MessageFactory::deserialize(const std::vector<uint8_t>
         welcome.playerId = ntohl(welcome.playerId);
         return std::make_unique<WelcomeMessage>(welcome);
     }
-
     case ProtocolData::MessageType::SNAPSHOT:
     {
+        // Vérifications de taille... (important pour la sécurité)
+
+        const uint8_t *ptr = buffer.data() + sizeof(ProtocolData::PacketHeader);
+
+        // 1. Lire le nombre d'entités ET LE CONVERTIR (ntohl)
         uint32_t count;
-        std::memcpy(&count, buffer.data() + sizeof(ProtocolData::PacketHeader), sizeof(count));
+        uint32_t netCount;
+        std::memcpy(&netCount, ptr, sizeof(netCount));
+        count = ntohl(netCount); // ✅ Correction Endianness
+        ptr += sizeof(uint32_t);
+
+        // Vérification de taille totale attendue... (important)
 
         ProtocolData::Snapshot snap;
-        snap.entities.resize(count);
-        std::memcpy(snap.entities.data(),
-                    buffer.data() + sizeof(ProtocolData::PacketHeader) + sizeof(uint32_t),
-                    count * sizeof(ProtocolData::entity_state));
+        snap.entities.reserve(count);
+
+        // 2. BOUCLER pour lire CHAQUE entité INDIVIDUELLEMENT
+        for (uint32_t i = 0; i < count; ++i)
+        {
+            ProtocolData::entity_state current_entity;
+
+            // Lire l'ID (4 octets) ET LE CONVERTIR (ntohl)
+            uint32_t netId;
+            std::memcpy(&netId, ptr, sizeof(netId));
+            current_entity.id = ntohl(netId); // ✅ Correction Endianness
+            ptr += sizeof(uint32_t);
+
+            // Lire le type (1 octet) - Copie simple
+            std::memcpy(&current_entity.type, ptr, sizeof(uint8_t));
+            ptr += sizeof(uint8_t);
+
+            // Lire X (4 octets) - Copie simple
+            std::memcpy(&current_entity.x, ptr, sizeof(float));
+            ptr += sizeof(float);
+
+            // Lire Y (4 octets) - Copie simple
+            std::memcpy(&current_entity.y, ptr, sizeof(float));
+            ptr += sizeof(float);
+
+            // Ajouter l'entité reconstruite au vecteur
+            snap.entities.push_back(current_entity);
+        }
+        // Vérification finale du pointeur... (sécurité)
 
         return std::make_unique<SnapshotMessage>(snap);
     }

@@ -38,26 +38,24 @@ void PlayerManager::removePlayerById(uint32_t id) {
         }
     }
 }
-
-void PlayerManager::removeInactivePlayers(std::chrono::seconds timeout) {
+std::vector<uint32_t> PlayerManager::removeInactivePlayers(std::chrono::seconds timeout) {
     auto now = std::chrono::steady_clock::now();
-    removed = false;
+    std::vector<uint32_t> removedPlayerIDs; // ✅ Liste des IDs à retourner
+    // bool removed = false; // Pas vraiment nécessaire si on regarde la taille du vecteur retourné
 
-    for (auto it = players_.begin(); it != players_.end();) {
+    for (auto it = players_.begin(); it != players_.end(); /* pas d'incrément ici */) {
         if (std::chrono::duration_cast<std::chrono::seconds>(now - it->second.lastSeen) > timeout) {
-            std::cout << "[GAME] Player disconnected (timeout): "
+            std::cout << "[THREAD JEU] Joueur " << it->second.id << " déconnecté (timeout): "
                       << it->second.endpoint.address().to_string() << std::endl;
-            it = players_.erase(it);
-            removed = true;
+
+            removedPlayerIDs.push_back(it->second.id); // ✅ Ajoute l'ID AVANT de supprimer
+            it = players_.erase(it); // Supprime l'entrée de la map
         } else {
-            ++it;
+            ++it; // Incrémente seulement si on n'a pas supprimé
         }
     }
-
-    if (removed)
-        std::cout << "[SERVER] Cleanup done\n";
+    return removedPlayerIDs; // ✅ Retourne la liste des IDs
 }
-
 std::optional<uint32_t> PlayerManager::getPlayerIdByEndpoint(const asio::ip::udp::endpoint& ep) const {
     std::string key = makeKey(ep);
     if (players_.count(key))

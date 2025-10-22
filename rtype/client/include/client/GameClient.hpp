@@ -30,14 +30,14 @@ public:
 
     // Accesseur pour le rendu
     const ECS::registry& getRegistry() const { return m_registry; }
-
+ 
 private:
     void initECS();
 
     InputManager& m_input;
     // ✅ GARDE la référence à RTypeClient pour pouvoir envoyer
     RTypeClient& m_client;
-
+    
     ECS::registry m_registry;
     std::unordered_map<uint32_t, ECS::entity_t> networkIdToEntityMap;
     std::optional<uint32_t> m_localPlayerNetworkId;

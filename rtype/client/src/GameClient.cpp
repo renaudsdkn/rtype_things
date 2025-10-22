@@ -130,7 +130,7 @@ void GameClient::processInput() {
 
     // Envoyer seulement si une touche pertinente a été actionnée
     // ou peut-être envoyer périodiquement même si rien ne change ?
-    if (hasInput) { // Ou une condition plus complexe pour éviter le spam
+    ///if (hasInput) { // Ou une condition plus complexe pour éviter le spam
         ProtocolData::PlayerInput inputData{};
         inputData.up = up;
         inputData.down = down;
@@ -139,7 +139,7 @@ void GameClient::processInput() {
         inputData.shoot = shoot;
         // L'ID joueur n'est pas nécessaire ici, le serveur le connaît via l'endpoint
         m_client.send_input(inputData);
-     }
+     //}
 }
 
 // --- Mise à jour Logique Client (Prédiction/Interpolation) ---

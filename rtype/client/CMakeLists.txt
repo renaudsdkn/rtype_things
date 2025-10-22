@@ -17,13 +17,12 @@ find_package(raylib REQUIRED)
 add_executable(r-type_client
     src/main.cpp
     src/client.cpp
-    src/graphics.cpp
-    src/input.cpp
-    src/ecs.cpp
     src/GameClient.cpp
-    src/GraphicsEngine.cpp
     src/InputManager.cpp
-    src/UdpClient.cpp
+    src/Renderer.cpp
+    src/SpriteManager.cpp
+    src/Starfield.cpp
+    src/Game.cpp
 )
 
 target_include_directories(r-type_client PRIVATE 

@@ -35,7 +35,7 @@ public:
     void setWelcomeHandler(WelcomeHandler handler);
 
     uint32_t getPlayerId() const { return m_playerId; } // Optionnel
-
+ 
 private:
     void receive_loop();
     // ✅ Utiliser le buffer brut pour MessageFactory

@@ -78,7 +78,13 @@ std::unique_ptr<IMessage> MessageFactory::deserialize(const std::vector<uint8_t>
             // Lire Y (4 octets) - Copie simple
             std::memcpy(&current_entity.y, ptr, sizeof(float));
             ptr += sizeof(float);
-
+            // ✅ IMPORTANT : Si tu as ajouté vx, vy, damage, xp, level à entity_state,
+            // IL FAUT AUSSI LES LIRE ICI !
+            std::memcpy(&current_entity.vx, ptr, sizeof(float)); ptr += sizeof(float);
+             std::memcpy(&current_entity.vy, ptr, sizeof(float)); ptr += sizeof(float);
+             std::memcpy(&current_entity.damage, ptr, sizeof(uint8_t)); ptr += sizeof(uint8_t);
+             std::memcpy(&current_entity.xp, ptr, sizeof(uint8_t)); ptr += sizeof(uint8_t);
+             std::memcpy(&current_entity.level, ptr, sizeof(uint8_t)); ptr += sizeof(uint8_t);
             // Ajouter l'entité reconstruite au vecteur
             snap.entities.push_back(current_entity);
         }

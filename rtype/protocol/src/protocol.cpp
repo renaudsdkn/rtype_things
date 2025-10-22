@@ -152,6 +152,13 @@ std::vector<uint8_t> SnapshotMessage::serialize() const {
         ptr += sizeof(entity.x);
         std::memcpy(ptr, &entity.y, sizeof(entity.y));
         ptr += sizeof(entity.y);
+        // ✅ IMPORTANT : Si tu as ajouté vx, vy, damage, xp, level à entity_state,
+        // IL FAUT AUSSI LES ÉCRIRE ICI !
+        std::memcpy(ptr, &entity.vx, sizeof(entity.vx)); ptr += sizeof(entity.vx);
+         std::memcpy(ptr, &entity.vy, sizeof(entity.vy)); ptr += sizeof(entity.vy);
+         std::memcpy(ptr, &entity.damage, sizeof(entity.damage)); ptr += sizeof(entity.damage);
+         std::memcpy(ptr, &entity.xp, sizeof(entity.xp)); ptr += sizeof(entity.xp);
+         std::memcpy(ptr, &entity.level, sizeof(entity.level)); ptr += sizeof(entity.level);
     }
     return buffer;
 }

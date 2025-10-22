@@ -1,33 +1,49 @@
 
+// Dans rtype/client/src/client.cpp
 #include "../include/client/client.hpp"
+// ❌ PAS d'include GameClient.hpp ici
+#include "protocol/serializer.hpp" // Pour les classes Message
+#include "protocol/Factory.hpp"    // ✅ Pour MessageFactory
+#include <vector>
+#include <memory> // Pour std::unique_ptr
+#include <array>  // Pour std::array
+
 using namespace Protocol;
 using namespace ProtocolData;
 
+// ✅ Constructeur SIMPLE
 RTypeClient::RTypeClient(const std::string &server_ip, unsigned short server_port)
-    : m_socket(m_io), m_server_endpoint(asio::ip::make_address(server_ip), server_port)
+    : m_io(), // Initialise m_io
+      m_socket(m_io),
+      m_server_endpoint(asio::ip::make_address(server_ip), server_port)
+// ❌ PAS d'initialisation m_gameClient
 {
     m_socket.open(asio::ip::udp::v4());
 }
 
-RTypeClient::~RTypeClient()
-{
-    stop();
-}
+// Destructeur, start, stop, send_* (inchangés)
+RTypeClient::~RTypeClient() { stop(); }
 
 void RTypeClient::start()
 {
     m_running = true;
     m_receiver = std::thread(&RTypeClient::receive_loop, this);
+    // Optionnel: Thread pour m_io.run() si Asio est utilisé ailleurs
     send_connect();
 }
 
 void RTypeClient::stop()
 {
     m_running = false;
-    if (m_socket.is_open())
-        m_socket.close();
+    m_io.stop();
+    // Fermer le socket peut causer une exception dans receive_from,
+    // il vaut mieux gérer ça proprement dans receive_loop.
+    // Ou fermer après avoir joint le thread.
+    // if (m_socket.is_open()) m_socket.close(); // Peut être dangereux si receive_from est bloquant
     if (m_receiver.joinable())
         m_receiver.join();
+    if (m_socket.is_open())
+        m_socket.close(); // Fermer après join
 }
 
 void RTypeClient::send_connect()
@@ -76,105 +92,135 @@ void RTypeClient::send_disconnect()
     }
 }
 
+// ✅ Implémentation des setters pour les handlers
+void RTypeClient::setSnapshotHandler(SnapshotHandler handler)
+{
+    m_snapshotHandler = std::move(handler); // Stocke la fonction passée
+}
+void RTypeClient::setWelcomeHandler(WelcomeHandler handler)
+{
+    m_welcomeHandler = std::move(handler); // Stocke la fonction passée
+}
+
+// --- receive_loop (Passe le buffer brut) ---
 void RTypeClient::receive_loop()
 {
-    uint8_t recv_buffer[1024];
+    std::array<uint8_t, 2048> recv_buffer;
     asio::ip::udp::endpoint sender_endpoint;
     while (m_running)
     {
         asio::error_code error;
-        size_t len = m_socket.receive_from(asio::buffer(recv_buffer), sender_endpoint, 0, error);
-        if (error || len < sizeof(PacketHeader))
-            continue;
+        size_t len = 0;
+        try
+        {
+            // Utiliser receive_from synchrone dans ce thread dédié
+            len = m_socket.receive_from(asio::buffer(recv_buffer), sender_endpoint, 0, error);
+        }
+        catch (const std::system_error &e)
+        {
+            // Capturer l'exception si le socket est fermé pendant l'appel bloquant
+            std::cerr << "[CLIENT NET] receive_from exception (normal si arrêt): " << e.what() << std::endl;
+            break; // Sortir de la boucle si le socket est fermé
+        }
 
-        auto *header = reinterpret_cast<const PacketHeader *>(recv_buffer);
-        handle_message(header, recv_buffer + sizeof(PacketHeader), len - sizeof(PacketHeader));
+        if (!m_running)
+            break; // Vérifier après l'appel potentiellement bloquant
+
+        if (error == asio::error::operation_aborted)
+        {
+            break; // Sortir proprement si io_context est stoppé
+        }
+        else if (error || len < sizeof(ProtocolData::PacketHeader) || sender_endpoint != m_server_endpoint)
+        {
+            if (error)
+            {
+                // std::cerr << "[CLIENT NET WARNING] receive_from error: " << error.message() << std::endl;
+            }
+            continue;
+        }
+
+        handle_message(recv_buffer.data(), len);
     }
+    std::cout << "[CLIENT] Thread de réception terminé." << std::endl;
 }
 
-void RTypeClient::handle_message(const PacketHeader *header, const uint8_t *data, size_t len)
+// --- handle_message (Utilise Factory et Appelle les Callbacks) ---
+void RTypeClient::handle_message(const uint8_t *buffer_data, size_t len)
 {
-    auto type = static_cast<MessageType>(header->type);
-
-    switch (type)
+    std::vector<uint8_t> message_buffer(buffer_data, buffer_data + len);
+    try
     {
-    case MessageType::WELCOME:
-    {
-        if (len >= sizeof(Welcome))
+        // Désérialise via la Factory
+        std::unique_ptr<Protocol::IMessage> message = Protocol::MessageFactory::deserialize(message_buffer);
+        if (!message)
+            return;
+        auto type = message->getType();
+
+        switch (type)
         {
-            auto *welcome = reinterpret_cast<const Welcome *>(data);
-            m_playerId = ntohl(welcome->playerId);
-            std::cout << "[CLIENT] WELCOME reçu. PlayerId: " << m_playerId << std::endl;
-        }
-        break;
-    }
-    case MessageType::PING_RESPONSE:
-        std::cout << "[CLIENT] PING_RESPONSE reçu." << std::endl;
-        break;
-    case MessageType::SNAPSHOT:
-    {
-        std::cout << "[CLIENT] SNAPSHOT reçu (" << len << " octets)." << std::endl;
-
-        // --- Début de la Désérialisation ---
-        if (len < sizeof(uint32_t))
-        { // Vérifie s'il y a au moins la place pour le compteur
-            std::cerr << "[CLIENT ERROR] Snapshot trop petit pour contenir le nombre d'entités." << std::endl;
-            break;
-        }
-
-        const uint8_t *ptr = data; // Pointeur pour parcourir les données reçues
-
-        // 1. Lire le nombre d'entités (convertir depuis Big Endian)
-        uint32_t count = ntohl(*reinterpret_cast<const uint32_t *>(ptr));
-        ptr += sizeof(uint32_t);
-        size_t expected_size = sizeof(uint32_t) + count * sizeof(ProtocolData::entity_state); // Taille attendue du payload
-
-        if (len != expected_size)
+        case ProtocolData::MessageType::SNAPSHOT:
         {
-            std::cerr << "[CLIENT ERROR] Taille de Snapshot incohérente. Reçu: " << len
-                      << ", Attendu: " << expected_size << " pour " << count << " entités." << std::endl;
-            break;
-        }
-
-        std::cout << "  Contient " << count << " entités :" << std::endl;
-
-        // 2. Lire chaque entité
-        for (uint32_t i = 0; i < count; ++i)
-        {
-            // S'assurer qu'on ne dépasse pas la taille du buffer (sécurité)
-            if (ptr + sizeof(ProtocolData::entity_state) > data + len)
+            // Tente de désérialiser via la Factory (ou manuellement si tu préfères)
+            std::unique_ptr<Protocol::IMessage> snapshotMessage;
+            try
             {
-                std::cerr << "[CLIENT ERROR] Dépassement de buffer lors de la lecture de l'entité " << i << std::endl;
+                // Remplace 'message_buffer' par le vecteur contenant les données brutes du paquet
+                // (Tu devras adapter cette partie en fonction de comment handle_message reçoit les données)
+                std::vector<uint8_t> message_buffer(buffer_data, buffer_data + len); // Crée le vecteur à partir du pointeur brut
+                snapshotMessage = Protocol::MessageFactory::deserialize(message_buffer);
+                if (!snapshotMessage)
+                {
+                    std::cerr << "[CLIENT ERROR] SNAPSHOT: Désérialisation échouée (nullptr)." << std::endl;
+                    break;
+                }
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "[CLIENT ERROR] SNAPSHOT: Exception désérialisation: " << e.what() << std::endl;
                 break;
             }
 
-            const ProtocolData::entity_state *state_ptr = reinterpret_cast<const ProtocolData::entity_state *>(ptr);
+            // Cast pour accéder aux données spécifiques du Snapshot
+            auto *snapshotMsg = static_cast<Protocol::SnapshotMessage *>(snapshotMessage.get());
+            const ProtocolData::Snapshot &snapData = snapshotMsg->getData();
 
-            uint32_t entity_id = ntohl(state_ptr->id); // Convertir l'ID
-            uint8_t entity_type = state_ptr->type;
-            // Lire x et y (si tu les as ajoutés à entity_state)
-            float entity_x = state_ptr->x;
-            float entity_y = state_ptr->y;
+            // --- ✅ Affichage Détaillé du Contenu ---
+            std::cout << "[CLIENT] SNAPSHOT reçu contenant " << snapData.entities.size() << " entités :" << std::endl;
+            // Boucle sur chaque entité dans le snapshot
+            for (const auto &entity : snapData.entities)
+            {
+                // Affiche les informations de chaque entité
+                // Note : Les données comme 'id' sont déjà dans l'ordre de l'hôte grâce à la factory
+                std::cout << "    - ID: " << entity.id
+                          << ", T: " << static_cast<int>(entity.type)          // Affiche le type comme un nombre
+                          << ", P: (" << entity.x << ", " << entity.y << ")"   // Affiche la position
+                          << ", V: (" << entity.vx << ", " << entity.vy << ")" // Affiche la vélocité
+                          << ", Dmg: " << static_cast<int>(entity.damage)      // Affiche les dégâts
+                          << ", XP: " << static_cast<int>(entity.xp)           // Affiche l'XP
+                          << ", Lvl: " << static_cast<int>(entity.level)       // Affiche le niveau
+                          << std::endl;
+            }
+            // --- Fin Affichage ---
 
-            // 3. Afficher les infos
-            std::cout << "    - Entité ID: " << entity_id
-                      << ", Type: " << static_cast<int>(entity_type)
-                       << ", Pos: (" << entity_x << ", " << entity_y << ")" // Décommente quand x,y sont là
-                      << std::endl;
-
-            ptr += sizeof(ProtocolData::entity_state); // Avancer le pointeur
+            // Appelle le callback SnapshotHandler s'il a été défini
+            if (m_snapshotHandler)
+            {
+                m_snapshotHandler(snapData); // Passe le snapshot reçu au GameClient
+            }
+            else
+            {
+                // Optionnel : Log si le handler n'est pas prêt
+                // std::cout << "[CLIENT WARNING] SnapshotHandler non défini." << std::endl;
+            }
+            break;
         }
-        // --- Fin de la Désérialisation ---
-
-        // Prochaine étape : Utiliser ces données pour mettre à jour l'ECS du client !
-
-        break;
+        // ... (gérer PING_RESPONSE, ERROR, SPAWN_ENTITY, DESTROY_ENTITY...)
+        default:
+            break;
+        }
     }
-    case MessageType::ERROR:
-        std::cout << "[CLIENT] ERROR reçu." << std::endl;
-        break;
-    default:
-        std::cout << "[CLIENT] Message reçu type " << int(type) << " (" << len << " octets)." << std::endl;
-        break;
+    catch (const std::exception &e)
+    {
+        std::cerr << "[CLIENT ERROR] Échec désérialisation/traitement: " << e.what() << std::endl;
     }
 }

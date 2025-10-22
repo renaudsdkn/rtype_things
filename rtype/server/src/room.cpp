@@ -58,57 +58,76 @@ void Room::update(float deltaTime)
     // Appeler simplement l'update de ton moteur !
     m_engine->update(deltaTime, 30.0f); // 30.0f = collisionBound par défaut
 }
-
 ProtocolData::Snapshot Room::getSnapshot() const
 {
     ProtocolData::Snapshot snap;
-    const auto &reg = m_engine->get_registry();
+    const auto &reg = m_engine->get_registry(); // Récupère la registry de l'Engine
 
+    // Récupère TOUTES les sparse_array nécessaires
     const auto &positions = reg.get_components<Components::Position>();
+    const auto &velocities = reg.get_components<Components::Velocity>(); // ✅ Pour vx, vy
     const auto &netIds = reg.get_components<Components::NetworkId>();
-    // Récupère les composants pour déterminer le type
     const auto &controllables = reg.get_components<Components::Controllable>();
     const auto &enemyTypes = reg.get_components<Components::Enemystype>();
     const auto &bullets = reg.get_components<Components::Bullet>();
     const auto &powerUps = reg.get_components<Components::PowerUp>();
+    const auto &damages = reg.get_components<Components::Damage_t>();       // ✅ Pour damage
+    const auto &player_stats = reg.get_components<Components::PlayerStats>(); // ✅ Pour xp, level
 
-    // Pré-allouer peut améliorer les performances
-    snap.entities.reserve(positions.size());
+    snap.entities.reserve(positions.size()); // Pré-allocation
 
     for (size_t i = 0; i < positions.size(); ++i)
     {
-        // Inclure seulement les entités qui ont une position ET un ID réseau
+        // Condition : l'entité doit avoir AU MINIMUM une position et un ID réseau
         if (positions[i].has_value() && i < netIds.size() && netIds[i].has_value())
         {
-            ProtocolData::entity_state state;
+            ProtocolData::entity_state state; // Crée la structure à envoyer
 
             // --- Remplir les données ---
-            state.id = netIds[i]->id; // L'ID réseau (sera converti dans serialize)
+            state.id = netIds[i]->id; // Sera converti dans serialize()
             state.x = positions[i]->x;
             state.y = positions[i]->y;
 
+            // --- Remplir la vélocité (si l'entité en a une) ---
+            if (i < velocities.size() && velocities[i].has_value()) {
+                state.vx = velocities[i]->x;
+                state.vy = velocities[i]->y;
+            } else {
+                state.vx = 0.f; // Valeur par défaut si pas de vélocité
+                state.vy = 0.f;
+            }
+
+            // --- Remplir les dégâts (si l'entité en a) ---
+             if (i < damages.size() && damages[i].has_value()) {
+                 // Attention à la conversion potentielle si Damage_t::_damage est > 255
+                 state.damage = static_cast<uint8_t>(damages[i]->_damage);
+             } else {
+                 state.damage = 0; // Valeur par défaut
+             }
+
+             // --- Remplir XP et Level (si c'est un joueur) ---
+             state.xp = 0; // Valeur par défaut
+             state.level = 0; // Valeur par défaut
+             if (i < player_stats.size() && player_stats[i].has_value()) {
+                 // Attention aux conversions si xp/level peuvent dépasser 255
+                 state.xp = static_cast<uint8_t>(player_stats[i]->xp);
+                 state.level = static_cast<uint8_t>(player_stats[i]->level);
+             }
+
             // --- Déterminer le type ---
             uint8_t entityType = 255; // 255 = Type inconnu/par défaut
-
-            if (i < controllables.size() && controllables[i].has_value())
-            {
+            if (i < controllables.size() && controllables[i].has_value()) {
                 entityType = 0; // Convention: 0 = Joueur
-            }
-            else if (i < enemyTypes.size() && enemyTypes[i].has_value())
-            {
-                // Convention: 10 + type d'ennemi (pour éviter conflit avec 0)
+            } else if (i < enemyTypes.size() && enemyTypes[i].has_value()) {
                 entityType = 10 + static_cast<uint8_t>(enemyTypes[i].value());
-            }
-            else if (i < bullets.size() && bullets[i].has_value() && bullets[i]->active)
-            {
-                entityType = 100; // Convention: 100 = Balle
-            }
-            else if (i < powerUps.size() && powerUps[i].has_value())
-            {
-                entityType = 200; // Convention: 200 = PowerUp
+            } else if (i < bullets.size() && bullets[i].has_value() && bullets[i]->active) {
+                 entityType = 100; // Convention: 100 = Balle
+            } else if (i < powerUps.size() && powerUps[i].has_value()) {
+                 entityType = 200; // Convention: 200 = PowerUp
             }
             state.type = entityType;
 
+            // Ajouter l'état complet de l'entité au snapshot
             snap.entities.push_back(state);
         }
     }

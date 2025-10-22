@@ -1,52 +1,45 @@
 #pragma once
-#include "GraphicsEngine.hpp" // Doit exister et utiliser Raylib
-#include "InputManager.hpp"   // Doit exister pour gérer les entrées
-#include "Commands.hpp"       // Doit exister pour les actions du joueur
-#include "ecs.hpp"            // Le cœur de l'ECS
 
-/**
- * @brief Le cœur de l'application client.
- * Gère la boucle de jeu principale, l'I/O, et l'intégration de l'ECS.
- */
+#include "GraphicsEngine.hpp"
+#include "InputManager.hpp"
+#include "client.hpp" // ✅ Renommé depuis UdpClient.hpp ? Contient RTypeClient
+#include "../include/ecs/engine.hpp" 
+#include "protocol/protocol_data.hpp" // Pour Snapshot
+#include <unordered_map>              // Pour la map
+#include <set>                        // Pour le set d'IDs
+#include <optional>                   // Pour l'ID joueur optionnel
+// Dans rtype/client/include/client/GameClient.hpp
+#pragma once
+// ... (includes: InputManager, ecs.hpp, protocol_data.hpp, etc.)
+
+// Déclaration anticipée
+class RTypeClient;
+
 class GameClient {
 public:
-    /**
-     * @brief Constructeur du client.
-     * @param width Largeur de la fenêtre.
-     * @param height Hauteur de la fenêtre.
-     * @param title Titre de la fenêtre.
-     */
-    GameClient(int width, int height, const std::string& title);
-    
-    /**
-     * @brief Lance la boucle de jeu principale.
-     */
-    void run();
+    // ✅ Le constructeur prend InputManager ET RTypeClient
+    GameClient(InputManager& input, RTypeClient& networkClient);
+
+    // Méthodes appelées par main
+    void processInput();
+    void updatePrediction();
+
+    // Méthodes appelées VIA CALLBACKS depuis RTypeClient
+    void updateFromServer(const ProtocolData::Snapshot& snapshot);
+    void setLocalPlayerId(uint32_t networkId);
+
+    // Accesseur pour le rendu
+    const ECS::registry& getRegistry() const { return m_registry; }
 
 private:
-    GraphicsEngine m_graphics;
-    InputManager m_input;
-    registry m_registry;
-    entity_t m_player_entity;
-
-    /**
-     * @brief Initialise les composants et systèmes de l'ECS.
-     */
     void initECS();
-    
-    /**
-     * @brief Traite la liste des commandes générées par l'InputManager.
-     * @param commands La liste des commandes de jeu à traiter.
-     */
-    void processInput(const CommandList& commands);
-    
-    /**
-     * @brief Exécute la logique de jeu (systèmes ECS).
-     */
-    void updateLogic();
-    
-    /**
-     * @brief Effectue le rendu de la scène.
-     */
-    void renderScene();
+
+    InputManager& m_input;
+    // ✅ GARDE la référence à RTypeClient pour pouvoir envoyer
+    RTypeClient& m_client;
+
+    ECS::registry m_registry;
+    std::unordered_map<uint32_t, ECS::entity_t> networkIdToEntityMap;
+    std::optional<uint32_t> m_localPlayerNetworkId;
+    std::optional<ECS::entity_t> m_player_entity;
 };

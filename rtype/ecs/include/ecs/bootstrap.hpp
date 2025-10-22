@@ -212,9 +212,10 @@ namespace ECS {
 
 namespace Components {
     // --- Composants de base ---
-    struct Velocity { float x{0.f}, y{0.f}; };
+    struct Velocity { float x{0.f}, y{0.f}; Velocity(float vx=0.f, float vy=0.f):x(vx),y(vy){}};
     struct Position {
         float x{0.f}, y{0.f};
+        Position(float vx=0.f, float vy=0.f):x(vx),y(vy){};
         // Opérateur pratique pour appliquer la vélocité
         Position& operator+=(const Velocity& v) { x += v.x; y += v.y; return *this; }
         // Opérateur pour calculer la distance (utilisé dans les collisions)
@@ -252,8 +253,19 @@ namespace Components {
     // --- Composant crucial pour le réseau ---
     // NOUVEAU : Lie l'entité ECS à l'ID réseau du joueur/monstre etc.
     // Cet ID sera utilisé dans les snapshots envoyés aux clients.
-    struct NetworkId { uint32_t id; };
+    struct NetworkId { uint32_t id;NetworkId(uint32_t v=0):id(v){} };
+    // NOUVEAU : Composant pour l'affichage
+    struct Drawable {
+        // Stocke le 'type' reçu du serveur.
+        // Le système de rendu saura quelle texture/couleur utiliser.
+        uint8_t serverEntityType;
+        // Optionnel : Tu pourrais ajouter ici la taille, la couleur, l'ID de texture, etc.
+        float width = 30.0f; // Taille par défaut
+        float height = 30.0f; // Taille par défaut
+    };
 
+    // NOUVEAU : Composant pour marquer l'entité locale du joueur (optionnel mais utile)
+  
     // SUPPRIMÉ : Les composants graphiques (Idrawable, Sprite, Circle...)
     // Ils n'ont pas leur place dans la librairie partagée. Le client devra avoir
     // ses propres composants graphiques.

@@ -2,7 +2,7 @@
 #include "../include/client/Renderer.hpp"
 #include <algorithm> // Pour std::max
 #include <string>    // Pour std::string
-#include "../include/ecs"
+#include "../include/ecs/engine.hpp" // Pour les composants
 Renderer::Renderer(SpriteManager& sm, int screenWidth, int screenHeight)
     : spriteManager(sm), screenWidth(screenWidth), screenHeight(screenHeight) {}
 

@@ -32,19 +32,6 @@ void RTypeClient::start()
     send_connect();
 }
 
-void RTypeClient::stop()
-{
-    m_running = false;
-    m_io.stop();
-    // Fermer le socket peut causer une exception dans receive_from,
-    // il vaut mieux gérer ça proprement dans receive_loop.
-    // Ou fermer après avoir joint le thread.
-    // if (m_socket.is_open()) m_socket.close(); // Peut être dangereux si receive_from est bloquant
-    if (m_receiver.joinable())
-        m_receiver.join();
-    if (m_socket.is_open())
-        m_socket.close(); // Fermer après join
-}
 
 void RTypeClient::send_connect()
 {
@@ -101,48 +88,92 @@ void RTypeClient::setWelcomeHandler(WelcomeHandler handler)
 {
     m_welcomeHandler = std::move(handler); // Stocke la fonction passée
 }
+// Dans client.cpp
 
-// --- receive_loop (Passe le buffer brut) ---
+// ... (autres fonctions) ...
+
+void RTypeClient::stop()
+{
+    std::cout << "[CLIENT] Arrêt demandé..." << std::endl;
+    m_running = false; // Signale au thread de s'arrêter logiquement
+
+    // ✅ Ferme le socket depuis ce thread (le thread principal)
+    // Cela va provoquer le déblocage immédiat de receive_from() dans l'autre thread,
+    // qui retournera une erreur spécifique.
+    if (m_socket.is_open()) {
+        asio::error_code ec;
+        // Optionnel: Tenter une fermeture plus propre
+        m_socket.shutdown(asio::ip::udp::socket::shutdown_both, ec);
+        // Fermer le socket
+        m_socket.close(ec);
+        if (ec) {
+             std::cerr << "[CLIENT] Erreur lors de la fermeture du socket: " << ec.message() << std::endl;
+        } else {
+             std::cout << "[CLIENT] Socket fermé." << std::endl;
+        }
+    }
+
+    // Attend maintenant que le thread receive_loop se termine effectivement.
+    // Comme le socket est fermé, receive_from va retourner, la boucle while(m_running)
+    // sera fausse (ou on sortira à cause de l'erreur), et le thread finira.
+    if (m_receiver.joinable()) {
+        std::cout << "[CLIENT] Attente de la fin du thread réseau..." << std::endl;
+        m_receiver.join(); // Attend la fin du thread
+        std::cout << "[CLIENT] Thread réseau terminé." << std::endl;
+    } else {
+         std::cout << "[CLIENT] Thread réseau non joignable." << std::endl;
+    }
+}
+
 void RTypeClient::receive_loop()
 {
-    std::array<uint8_t, 2048> recv_buffer;
+    std::cout << "[CLIENT] Thread de réception démarré." << std::endl;
+    std::array<uint8_t, 2048> recv_buffer; // Utilise std::array
     asio::ip::udp::endpoint sender_endpoint;
-    while (m_running)
+
+    while (m_running) // Vérifie AVANT l'appel bloquant
     {
         asio::error_code error;
         size_t len = 0;
-        try
-        {
-            // Utiliser receive_from synchrone dans ce thread dédié
+        try {
+            // Appel potentiellement bloquant
             len = m_socket.receive_from(asio::buffer(recv_buffer), sender_endpoint, 0, error);
-        }
-        catch (const std::system_error &e)
-        {
-            // Capturer l'exception si le socket est fermé pendant l'appel bloquant
-            std::cerr << "[CLIENT NET] receive_from exception (normal si arrêt): " << e.what() << std::endl;
-            break; // Sortir de la boucle si le socket est fermé
-        }
-
-        if (!m_running)
-            break; // Vérifier après l'appel potentiellement bloquant
-
-        if (error == asio::error::operation_aborted)
-        {
-            break; // Sortir proprement si io_context est stoppé
-        }
-        else if (error || len < sizeof(ProtocolData::PacketHeader) || sender_endpoint != m_server_endpoint)
-        {
-            if (error)
-            {
-                // std::cerr << "[CLIENT NET WARNING] receive_from error: " << error.message() << std::endl;
-            }
-            continue;
+        } catch (const std::system_error& e) {
+            // Gère l'exception si le socket est fermé pendant l'appel
+             if (m_running) { // N'affiche l'erreur que si on ne s'attendait pas à s'arrêter
+                 std::cerr << "[CLIENT NET] receive_from exception: " << e.what() << std::endl;
+             }
+            break; // Sort de la boucle
         }
 
+        if (!m_running) break; // Re-vérifie APRÈS l'appel bloquant
+
+        // ✅ Gérer l'erreur spécifique causée par la fermeture du socket
+        if (error == asio::error::bad_descriptor /* Linux? */ ||
+            error == asio::error::operation_aborted /* Peut arriver aussi */ ||
+            error.value() == 9 /* Bad file descriptor, souvent sur close */
+            /* Ajouter d'autres codes d'erreur Windows si nécessaire */
+            ) {
+            std::cout << "[CLIENT] Socket fermé, sortie de la boucle de réception." << std::endl;
+            break; // Sortir proprement
+        }
+
+        // Gérer les autres erreurs ou conditions de continuation
+        if (error || len < sizeof(ProtocolData::PacketHeader) || sender_endpoint != m_server_endpoint) {
+             if (error) {
+                 // Optionnel: Logguer les erreurs non fatales
+                 // std::cerr << "[CLIENT NET WARNING] receive_from error: " << error.message() << std::endl;
+             }
+            continue; // Ignore le paquet et continue
+        }
+
+        // Si tout va bien, traiter le message
         handle_message(recv_buffer.data(), len);
     }
     std::cout << "[CLIENT] Thread de réception terminé." << std::endl;
 }
+
+// ... (handle_message et le reste) ...
 
 // --- handle_message (Utilise Factory et Appelle les Callbacks) ---
 void RTypeClient::handle_message(const uint8_t *buffer_data, size_t len)
@@ -191,14 +222,14 @@ void RTypeClient::handle_message(const uint8_t *buffer_data, size_t len)
             {
                 // Affiche les informations de chaque entité
                 // Note : Les données comme 'id' sont déjà dans l'ordre de l'hôte grâce à la factory
-                std::cout << "    - ID: " << entity.id
+                /*std::cout << "    - ID: " << entity.id
                           << ", T: " << static_cast<int>(entity.type)          // Affiche le type comme un nombre
                           << ", P: (" << entity.x << ", " << entity.y << ")"   // Affiche la position
                           << ", V: (" << entity.vx << ", " << entity.vy << ")" // Affiche la vélocité
                           << ", Dmg: " << static_cast<int>(entity.damage)      // Affiche les dégâts
                           << ", XP: " << static_cast<int>(entity.xp)           // Affiche l'XP
                           << ", Lvl: " << static_cast<int>(entity.level)       // Affiche le niveau
-                          << std::endl;
+                          << std::endl;*/
             }
             // --- Fin Affichage ---
 

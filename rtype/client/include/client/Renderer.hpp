@@ -3,8 +3,7 @@
 #include "raylib.h"
 #include "SpriteManager.hpp"
 // #include "GameState.hpp" // SUPPRIMÉ
-#include "ecs.hpp" // ✅ INCLURE ECS (qui définit les composants Position, Drawable)
-
+#include "../include/ecs/engine.hpp" // Pour ECS::registry
 class Renderer {
 public:
     Renderer(SpriteManager& sm, int screenWidth, int screenHeight);

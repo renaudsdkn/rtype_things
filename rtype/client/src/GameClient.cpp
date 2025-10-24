@@ -98,6 +98,13 @@ void GameClient::updateFromServer(const ProtocolData::Snapshot& snapshot) {
     // entitiesPresentInLastSnapshot = receivedNetworkIds; // Met à jour pour la prochaine frame
 }
 
+void GameClient::setPlayerEventHandler(const ProtocolData::PlayerEvent& playerEvent) {
+    // Gérer les différents types d'événements
+    if (playerEvent.type == ProtocolData::PlayerEventType::GAME_OVER) {
+        m_gameOver = true;
+        std::cout << "[GameClient] Événement GAME_OVER reçu pour le joueur ID: " << playerEvent.playerId << std::endl;
+    }
+}
 
 // --- initECS Modifié ---
 void GameClient::initECS() {

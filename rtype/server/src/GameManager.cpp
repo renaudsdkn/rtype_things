@@ -28,6 +28,7 @@ void GameManager::run() {
         processNetworkInputs();
         updateGame(deltaTime);
         broadcastSnapshots();
+        broadcastGameEvents();
         cleanupPlayers();
 
         auto sleepTime = tickRate - (std::chrono::steady_clock::now() - now);
@@ -56,6 +57,7 @@ void GameManager::processNetworkInputs() {
 
 void GameManager::updateGame(float deltaTime) {
     for (auto& room : m_rooms) {
+        
         room->update(deltaTime);
     }
 }
@@ -86,7 +88,7 @@ void GameManager::broadcastSnapshots() {
         }
     }
 }
-
+    
 void GameManager::cleanupPlayers() {
     // Vérifie si c'est le moment de nettoyer (ex: toutes les 35 secondes)
     if (std::chrono::steady_clock::now() - m_lastCleanupTime > std::chrono::seconds(35)) {
@@ -111,6 +113,28 @@ void GameManager::cleanupPlayers() {
     }
 }
 
+void GameManager::broadcastGameEvents() {
+    for (auto& room : m_rooms) {
+        // Si la room vient de passer en GAME_OVER...
+        if (room->getState() == Room::State::GAME_OVER) {
+            std::cout << "[THREAD JEU] GameManager: Détection de GAME_OVER dans Room " << room->getId() << ". Diffusion du message." << std::endl;
+
+            // 1. Préparer le message
+            ProtocolData::PlayerEvent eventData;
+            eventData.type = ProtocolData::PlayerEventType::GAME_OVER;
+            Protocol::PlayerEventMessage gameOverMsg(eventData);
+            auto dataToSend = gameOverMsg.serialize();
+
+            // 2. Envoyer aux joueurs de la room
+            for (const auto& endpoint : room->getPlayerEndpoints()) {
+                m_server->send(dataToSend, endpoint);
+            }
+
+            // 3. Mettre à jour l'état pour ne pas renvoyer le message en boucle
+            room->setState(Room::State::FINISHED);
+        }
+    }
+}
 Room* GameManager::findAvailableRoom() {
     for (auto& room : m_rooms) {
         if (!room->isFull()) return room.get();

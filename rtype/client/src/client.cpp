@@ -32,7 +32,6 @@ void RTypeClient::start()
     send_connect();
 }
 
-
 void RTypeClient::send_connect()
 {
     ConnectMessage msg;
@@ -88,6 +87,11 @@ void RTypeClient::setWelcomeHandler(WelcomeHandler handler)
 {
     m_welcomeHandler = std::move(handler); // Stocke la fonction passée
 }
+
+void RTypeClient::setPlayerEventHandler(PlayerEventHandler handler)
+{
+    m_playerEventHandler = std::move(handler); // Stocke la fonction passée
+}
 // Dans client.cpp
 
 // ... (autres fonctions) ...
@@ -100,28 +104,35 @@ void RTypeClient::stop()
     // ✅ Ferme le socket depuis ce thread (le thread principal)
     // Cela va provoquer le déblocage immédiat de receive_from() dans l'autre thread,
     // qui retournera une erreur spécifique.
-    if (m_socket.is_open()) {
+    if (m_socket.is_open())
+    {
         asio::error_code ec;
         // Optionnel: Tenter une fermeture plus propre
         m_socket.shutdown(asio::ip::udp::socket::shutdown_both, ec);
         // Fermer le socket
         m_socket.close(ec);
-        if (ec) {
-             std::cerr << "[CLIENT] Erreur lors de la fermeture du socket: " << ec.message() << std::endl;
-        } else {
-             std::cout << "[CLIENT] Socket fermé." << std::endl;
+        if (ec)
+        {
+            std::cerr << "[CLIENT] Erreur lors de la fermeture du socket: " << ec.message() << std::endl;
+        }
+        else
+        {
+            std::cout << "[CLIENT] Socket fermé." << std::endl;
         }
     }
 
     // Attend maintenant que le thread receive_loop se termine effectivement.
     // Comme le socket est fermé, receive_from va retourner, la boucle while(m_running)
     // sera fausse (ou on sortira à cause de l'erreur), et le thread finira.
-    if (m_receiver.joinable()) {
+    if (m_receiver.joinable())
+    {
         std::cout << "[CLIENT] Attente de la fin du thread réseau..." << std::endl;
         m_receiver.join(); // Attend la fin du thread
         std::cout << "[CLIENT] Thread réseau terminé." << std::endl;
-    } else {
-         std::cout << "[CLIENT] Thread réseau non joignable." << std::endl;
+    }
+    else
+    {
+        std::cout << "[CLIENT] Thread réseau non joignable." << std::endl;
     }
 }
 
@@ -135,35 +146,43 @@ void RTypeClient::receive_loop()
     {
         asio::error_code error;
         size_t len = 0;
-        try {
+        try
+        {
             // Appel potentiellement bloquant
             len = m_socket.receive_from(asio::buffer(recv_buffer), sender_endpoint, 0, error);
-        } catch (const std::system_error& e) {
+        }
+        catch (const std::system_error &e)
+        {
             // Gère l'exception si le socket est fermé pendant l'appel
-             if (m_running) { // N'affiche l'erreur que si on ne s'attendait pas à s'arrêter
-                 std::cerr << "[CLIENT NET] receive_from exception: " << e.what() << std::endl;
-             }
+            if (m_running)
+            { // N'affiche l'erreur que si on ne s'attendait pas à s'arrêter
+                std::cerr << "[CLIENT NET] receive_from exception: " << e.what() << std::endl;
+            }
             break; // Sort de la boucle
         }
 
-        if (!m_running) break; // Re-vérifie APRÈS l'appel bloquant
+        if (!m_running)
+            break; // Re-vérifie APRÈS l'appel bloquant
 
         // ✅ Gérer l'erreur spécifique causée par la fermeture du socket
         if (error == asio::error::bad_descriptor /* Linux? */ ||
             error == asio::error::operation_aborted /* Peut arriver aussi */ ||
             error.value() == 9 /* Bad file descriptor, souvent sur close */
             /* Ajouter d'autres codes d'erreur Windows si nécessaire */
-            ) {
+        )
+        {
             std::cout << "[CLIENT] Socket fermé, sortie de la boucle de réception." << std::endl;
             break; // Sortir proprement
         }
 
         // Gérer les autres erreurs ou conditions de continuation
-        if (error || len < sizeof(ProtocolData::PacketHeader) || sender_endpoint != m_server_endpoint) {
-             if (error) {
-                 // Optionnel: Logguer les erreurs non fatales
-                 // std::cerr << "[CLIENT NET WARNING] receive_from error: " << error.message() << std::endl;
-             }
+        if (error || len < sizeof(ProtocolData::PacketHeader) || sender_endpoint != m_server_endpoint)
+        {
+            if (error)
+            {
+                // Optionnel: Logguer les erreurs non fatales
+                // std::cerr << "[CLIENT NET WARNING] receive_from error: " << error.message() << std::endl;
+            }
             continue; // Ignore le paquet et continue
         }
 
@@ -242,6 +261,21 @@ void RTypeClient::handle_message(const uint8_t *buffer_data, size_t len)
             {
                 // Optionnel : Log si le handler n'est pas prêt
                 // std::cout << "[CLIENT WARNING] SnapshotHandler non défini." << std::endl;
+            }
+            break;
+        } 
+        case ProtocolData::MessageType::PLAYER_EVENT:
+        {
+            auto *eventMsg = static_cast<Protocol::PlayerEventMessage *>(message.get());
+            const ProtocolData::PlayerEvent &eventData = eventMsg->getData();
+
+            std::cout << "[CLIENT] PLAYER_EVENT reçu. Joueur ID: " << eventData.playerId
+                      << ", Type d'événement: " << static_cast<int>(eventData.type) << std::endl;
+
+            // Appelle le callback PlayerEventHandler s'il a été défini
+            if (m_playerEventHandler)
+            {
+                m_playerEventHandler(eventData); // Passe l'événement reçu au GameClient
             }
             break;
         }

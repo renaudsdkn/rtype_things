@@ -32,7 +32,11 @@ Game::Game(int screenWidth, int screenHeight)
             this->gameClient.setLocalPlayerId(id); // Informe GameClient de son ID
         }
     );
-
+    networkClient.setPlayerEventHandler(
+        [this](const ProtocolData::PlayerEvent& event){
+            this->gameClient.setPlayerEventHandler(event); // Informe GameClient de l'événement
+        }
+    );
     // Démarrer le client réseau (thread de réception)
     networkClient.start();
     std::cout << "[Game] Client réseau démarré." << std::endl;
@@ -56,7 +60,7 @@ void Game::run() {
         //       Tu pourrais ajouter un état dans GameClient ou ici.
         // if (/* état menu ? */) { /* ... Afficher menu ... */ continue; }
         // if (/* état game over ? */) { /* ... Afficher game over ... */ continue; }
-
+        // --- FIN GESTION ÉTATS ---
         // Gérer les inputs locaux et les envoyer au serveur
         handleInput();
 
@@ -96,7 +100,6 @@ void Game::render() {
 
     // 1. Dessiner le fond étoilé (inchangé)
     starfield.updateAndDraw();
-
     // 2. ✅ Demander au Renderer de dessiner les entités
     //    en lisant l'état actuel de l'ECS DANS GameClient
     renderer.renderEntities(gameClient.getRegistry()); // Passe la registry à jour
@@ -107,7 +110,7 @@ void Game::render() {
     // DrawText(("Score: ...").c_str(), 20, 60, 30, WHITE);
 
     // Gérer l'affichage GAME OVER si besoin
-    // if (gameClient.isGameOver()) { DrawText("GAME OVER", ...); }
+    if (gameClient.isGameOver()) { DrawText("GAME OVER", 400, 300, 50, RED); }
 
     EndDrawing();
 }

@@ -16,6 +16,7 @@ public:
     // ✅ Types de callbacks
     using SnapshotHandler = std::function<void(const ProtocolData::Snapshot&)>;
     using WelcomeHandler = std::function<void(uint32_t)>;
+    using PlayerEventHandler = std::function<void(const ProtocolData::PlayerEvent&)>;
 
     // ✅ Constructeur SIMPLE (sans GameClient)
     RTypeClient(const std::string& server_ip, unsigned short server_port);
@@ -33,6 +34,7 @@ public:
     // ✅ Méthodes pour définir les callbacks
     void setSnapshotHandler(SnapshotHandler handler);
     void setWelcomeHandler(WelcomeHandler handler);
+    void setPlayerEventHandler(PlayerEventHandler handler);
 
     uint32_t getPlayerId() const { return m_playerId; } // Optionnel
  
@@ -52,6 +54,8 @@ private:
     // ✅ Membres pour stocker les callbacks
     SnapshotHandler m_snapshotHandler;
     WelcomeHandler m_welcomeHandler;
+    PlayerEventHandler m_playerEventHandler;
+    
 
     // ❌ PAS de référence GameClient& m_gameClient;
 };

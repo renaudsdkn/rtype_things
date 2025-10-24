@@ -32,7 +32,7 @@ namespace ProtocolData {
     };
 
     enum class PlayerEventType : uint8_t {
-        DEATH = 1,
+        GAME_OVER = 1,
         RESPAWN = 2,
         POWERUP = 3,
         SHOOT = 4

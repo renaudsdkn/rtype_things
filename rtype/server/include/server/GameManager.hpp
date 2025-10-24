@@ -21,14 +21,13 @@ public:
     void handleNewPlayer(uint32_t playerId, const asio::ip::udp::endpoint& endpoint);
     void handlePlayerDisconnect(uint32_t playerId);
     void handlePlayerInput(uint32_t playerId, const ProtocolData::PlayerInput& input);
-    
 private:
     void processNetworkInputs();
     void updateGame(float deltaTime);
     void broadcastSnapshots();
     void cleanupPlayers();
     Room* findAvailableRoom();
-
+    void broadcastGameEvents();
     std::atomic<bool> m_running{true};
     std::shared_ptr<ThreadSafeQueue<NetworkPacket>> m_incomingMessages;
     std::shared_ptr<UdpServer> m_server;
@@ -38,5 +37,6 @@ private:
     
     std::vector<std::unique_ptr<Room>> m_rooms;
     std::unordered_map<uint32_t, Room*> m_playerToRoomMap;
+    std::unordered_map<uint32_t, Room*> m_idToRoomMap;
     std::chrono::steady_clock::time_point m_lastCleanupTime;
 };

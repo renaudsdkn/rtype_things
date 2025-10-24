@@ -9,8 +9,15 @@ Room::Room(uint32_t roomId) : m_id(roomId)
 
 void Room::addPlayer(uint32_t playerId, const asio::ip::udp::endpoint &endpoint)
 {
+    if (isFull()) return;
     m_players[playerId] = endpoint;
     m_engine->spawn_player(playerId, 100.f, 100.f + (m_players.size() * 50.f));
+    // ✅ Démarre la partie si c'est le premier joueur
+    if (m_currentState == State::WAITING_FOR_PLAYERS) {
+        m_currentState = State::PLAYING; // Change l'état !
+        m_lastEnemySpawnTime = std::chrono::steady_clock::now(); // Initialise aussi le timer de spawn
+        std::cout << "[THREAD JEU] Room " << m_id << ": La partie commence !" << std::endl;
+    }
     std::cout << "[THREAD JEU] Joueur " << playerId << " ajouté à l'Engine de la Room " << m_id << std::endl;
 }
 
@@ -40,6 +47,9 @@ void Room::handleInput(uint32_t playerId, const ProtocolData::PlayerInput &input
 
 void Room::update(float deltaTime)
 {
+    if (m_currentState != State::PLAYING) {
+        return; // ✅ Cette condition est maintenant correcte
+    }
     // --- Logique de Spawn ---
     auto now = std::chrono::steady_clock::now();
     float timeSinceLastSpawn = std::chrono::duration_cast<std::chrono::duration<float>>(now - m_lastEnemySpawnTime).count();
@@ -57,6 +67,10 @@ void Room::update(float deltaTime)
     // --- Fin Logique de Spawn ---
     // Appeler simplement l'update de ton moteur !
     m_engine->update(deltaTime, 30.0f); // 30.0f = collisionBound par défaut
+    if (m_engine->hasLost()) {
+        m_currentState = State::GAME_OVER;
+        std::cout << "[THREAD JEU] Room " << m_id << ": Game Over !" << std::endl;
+    }
 }
 ProtocolData::Snapshot Room::getSnapshot() const
 {

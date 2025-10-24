@@ -375,6 +375,8 @@ void Engine::remove_player(uint32_t playerId) {
 // Crée une entité power-up
 void Engine::spawnLevelUporbs(float x, float y) {
     auto ent = _reg.spawn_entity();
+    uint32_t newNetworkId =  powers_ups++;
+    _reg.emplace_component<Components::NetworkId>(ent, newNetworkId);  
     _reg.emplace_component<Components::Position>(ent, x, y);
     _reg.emplace_component<Components::Velocity>(ent, -120.f, 0.f); // Vitesse vers la gauche (unités/sec)
     _reg.emplace_component<Components::PowerUp>(ent);
@@ -384,6 +386,8 @@ void Engine::spawnLevelUporbs(float x, float y) {
 // MODIFIÉ : Prend l'entité tireur en paramètre
 void Engine::shoot_bullet(entity shooter_entity, Components::AttackType type, float x, float y) {
     auto ent = _reg.spawn_entity();
+    uint32_t newNetworkId = ball_network++; // Utilise ta fonction helper
+    _reg.emplace_component<Components::NetworkId>(ent, newNetworkId); // ✅ AJOUTER CETTE LIGNE
     _reg.emplace_component<Components::Position>(ent, x, y);
     // La vélocité sera définie par le bullet_system en fonction du type
     _reg.emplace_component<Components::Velocity>(ent, 0.f, 0.f);

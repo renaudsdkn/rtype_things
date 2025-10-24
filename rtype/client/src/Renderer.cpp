@@ -31,13 +31,13 @@ void Renderer::renderEntities(const ECS::registry& registry) {
             // TODO: Adapter cette logique à tes conventions de type serveur
             if (drawInfo.serverEntityType == 0) { // Joueur
                 spriteName = "player";
-                scale = 0.2f;
+                scale = 0.1f;
             } else if (drawInfo.serverEntityType >= 10 && drawInfo.serverEntityType < 100) { // Ennemi
                 // Idéalement, différencier les types d'ennemis
                 if (drawInfo.serverEntityType == 10 + Components::Grubs) spriteName = "enemy"; // Exemple
                 // else if (drawInfo.serverEntityType == 10 + Components::Flyers) spriteName = "enemy_flyer";
                 else spriteName = "enemy"; // Fallback ennemi générique
-            } else if (drawInfo.serverEntityType >= 100 && drawInfo.serverEntityType < 200) { // Balle
+            } else if (drawInfo.serverEntityType == 100) { // Balle
                 spriteName = "missile";
                 scale = 0.1f;
             } else if (drawInfo.serverEntityType >= 200) { // PowerUp

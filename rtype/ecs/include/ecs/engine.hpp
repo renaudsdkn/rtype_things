@@ -28,6 +28,8 @@ class Engine {
 private:
     registry _reg; // ✅ L'instance de l'ECS pour ce moteur
     uint32_t m_next_network_id = 1000;
+    uint32_t ball_network = 100;
+    uint32_t powers_ups = ball_network/2;
     // --- Stockage interne des joueurs ---
     std::set<entity> player_entity_set; // Ensemble des entités 'joueur' actives
     // MODIFIÉ : Map pour lier l'ID réseau (uint32_t) à l'entité ECS (entity)

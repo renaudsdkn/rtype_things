@@ -23,10 +23,11 @@ public:
     // Méthodes appelées par main
     void processInput();
     void updatePrediction();
-
+    bool isGameOver() const { return m_gameOver; }
     // Méthodes appelées VIA CALLBACKS depuis RTypeClient
     void updateFromServer(const ProtocolData::Snapshot& snapshot);
     void setLocalPlayerId(uint32_t networkId);
+    void setPlayerEventHandler(const ProtocolData::PlayerEvent& playerEvent); // ✅ Gérer les événements joueur
 
     // Accesseur pour le rendu
     const ECS::registry& getRegistry() const { return m_registry; }
@@ -37,7 +38,7 @@ private:
     InputManager& m_input;
     // ✅ GARDE la référence à RTypeClient pour pouvoir envoyer
     RTypeClient& m_client;
-    
+    bool m_gameOver = false;
     ECS::registry m_registry;
     std::unordered_map<uint32_t, ECS::entity_t> networkIdToEntityMap;
     std::optional<uint32_t> m_localPlayerNetworkId;

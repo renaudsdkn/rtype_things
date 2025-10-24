@@ -4,19 +4,31 @@
 #include <chrono>
 #include <unordered_map>
 #include <memory>
-#include <chrono> //
+#include <chrono>                    //
 #include "../include/ecs/engine.hpp" // ✅ INCLURE L'EN-TÊTE DE TA LIBRAIRIE
 #include "../include/protocol/protocol_data.hpp"
-
-class Room {
+#include "../include/protocol/serializer.hpp"
+class Room
+{
 public:
+    enum class State
+    {
+        WAITING_FOR_PLAYERS,
+        PLAYING,
+        GAME_OVER,
+        FINISHED
+    };
+    // ...
+    State getState() const { return m_currentState; }
+
     explicit Room(uint32_t roomId);
 
     // --- Fonctions appelées par le GameManager ---
-    void addPlayer(uint32_t playerId, const asio::ip::udp::endpoint& endpoint);
+    void addPlayer(uint32_t playerId, const asio::ip::udp::endpoint &endpoint);
     void removePlayer(uint32_t playerId);
-    void handleInput(uint32_t playerId, const ProtocolData::PlayerInput& input);
+    void handleInput(uint32_t playerId, const ProtocolData::PlayerInput &input);
     void update(float deltaTime);
+    void setState(State newState) { m_currentState = newState; } 
 
     // --- Fonctions utilitaires ---
     bool isFull() const;
@@ -27,9 +39,11 @@ public:
 
 private:
     uint32_t m_id;
+    State m_currentState{State::WAITING_FOR_PLAYERS};
     std::unique_ptr<Engine> m_engine; // ✅ CHAQUE ROOM POSSÈDE SON MOTEUR
+
     // ...
     std::chrono::steady_clock::time_point m_lastEnemySpawnTime; // ✅ Suivi du temps
-    float m_spawnInterval = 5.0f; // ✅ Toutes les 5 secondes (par exemple)
+    float m_spawnInterval = 5.0f;                               // ✅ Toutes les 5 secondes (par exemple)
     std::unordered_map<uint32_t, asio::ip::udp::endpoint> m_players;
 };

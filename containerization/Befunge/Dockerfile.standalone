@@ -1,0 +1,16 @@
+FROM debian:latest
+
+SHELL ["/bin/bash", "-c"]
+
+WORKDIR /
+
+RUN apt-get update; apt-get install git -y; apt-get install make -y; apt-get install gcc -y;\
+        git clone https://github.com/catseye/Befunge-93.git; cd Befunge-93; \
+        make bin/bef; cp bin/bef /bin
+
+COPY ./app /app
+
+WORKDIR /app
+
+CMD ["bef", "main.bf"]
+

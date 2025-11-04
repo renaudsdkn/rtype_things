@@ -1,0 +1,138 @@
+- name: Whanos Infra Setup
+  hosts: whanos
+  become: yes
+  tasks:
+    - name: Update system
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install git
+      become: yes
+      ansible.builtin.apt:
+        name: git
+        state: present
+
+    - name: Install Java (Jenkins dependency)
+      apt:
+        name: openjdk-17-jdk
+        state: present
+
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Ensure Docker service is started and enabled
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+
+    - name: Download Jenkins repository key
+      get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+
+    - name: Add Jenkins repository
+      apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+        state: present
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Copy the jenkins config folder
+      copy:
+        src: /root/ansible/files/config/
+        dest: /var/lib/jenkins/config/
+        mode: '0755'
+
+    - name: Copy image folder
+      copy:
+        src: /root/ansible/files/images/
+        dest: /var/lib/jenkins/images/
+
+    - name: Copy the jenkins plugin cli
+      copy:
+        src: /root/ansible/jenkins-plugin-manager-2.13.2.jar
+        dest: /var/lib/jenkins/jenkins-plugin-manager-2.13.2.jar
+        mode: '0755'
+
+    - name: Install Jenkins plugins from plugins.txt
+      command: "java -jar /var/lib/jenkins/jenkins-plugin-manager-2.13.2.jar -f /var/lib/jenkins/config/plugins.txt --plugin-download-directory /var/lib/jenkins/plugins/"
+
+    - name: Set environment variables for Jenkins
+      lineinfile:
+        path: /etc/default/jenkins
+        regexp: '^#?JAVA_OPTS='
+        line: 'JAVA_OPTS="-Djenkins.install.runSetupWizard=false"'
+
+    - name: Set environment variables for Jenkins Configuration as Code
+      lineinfile:
+        path: /etc/default/jenkins
+        regexp: '^#?CASC_JENKINS_CONFIG='
+        line: 'CASC_JENKINS_CONFIG=/var/lib/jenkins/config/config.yaml'
+
+    - name: Add jenkins user to docker group
+      command: usermod -aG docker jenkins
+
+    - name: Ensure Jenkins is started and enabled on boot
+      service:
+        name: jenkins
+        state: restarted
+        enabled: yes
+
+    - name: Setup jenkins instance
+      command: wget http://127.0.0.1:8080/jnlpJars/jenkins-cli.jar -O /var/lib/jenkins/jenkins-cli.jar
+      
+    - name: Add perm to jenkins-cli.jar
+      command: chmod +x /var/lib/jenkins/jenkins-cli.jar
+
+    - name: Copy CasC configuration to Jenkins Home
+      copy:
+        src: /root/ansible/files/config/config.yaml
+        dest: /var/lib/jenkins/jenkins.yaml
+
+    - name: Setup docker registry
+      command: docker pull registry
+
+    - name: Launch registry
+      command: docker run -d -p 5000:5000 --restart always --name registry registry:2
+
+    - name: Apply CasC configuration
+      command: java -jar /var/lib/jenkins/jenkins-cli.jar -s http://127.0.0.1:8080/ -auth "admin:$(cat /var/lib/jenkins/secrets/initialAdminPassword)" -webSocket reload-jcasc-configuration

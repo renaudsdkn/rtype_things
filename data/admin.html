@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R-Type Admin Dashboard</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        /* Custom styles minimalistes (uniquement ce que Bootstrap ne couvre pas) */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .live-badge {
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .room-card {
+            border-left: 4px solid #667eea;
+        }
+        
+        .score-value {
+            color: #198754;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header-gradient">
+            <h1 class="display-4 mb-2">🚀 R-TYPE Admin Dashboard</h1>
+            <p class="lead mb-0 opacity-75">Administration & Monitoring Temps Réel</p>
+        </header>
+        
+        <!-- Status Bar -->
+        <div class="bg-light border-bottom p-4">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="text-muted small">Rooms Actives</div>
+                    <div class="display-5 fw-bold text-primary" id="roomsCount">-</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-muted small">Joueurs Connectés</div>
+                    <div class="display-5 fw-bold text-primary" id="playersCount">-</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-muted small">Statut Serveur</div>
+                    <div class="display-6" id="serverStatus">🟢</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin Controls -->
+        <div class="bg-light border-bottom p-3">
+            <h5 class="mb-3"><i class="bi bi-controller"></i> Contrôles Admin</h5>
+            <button class="btn btn-primary me-2" onclick="loadAll()">
+                <i class="bi bi-arrow-clockwise"></i> Rafraîchir Tout
+            </button>
+            <button class="btn btn-danger" onclick="shutdownServer()">
+                <i class="bi bi-power"></i> Éteindre Serveur
+            </button>
+        </div>
+        
+        <!-- Live Scores Section -->
+        <div class="p-4">
+            <h2 class="mb-3">
+                <i class="bi bi-graph-up"></i> Scores en Direct 
+                <span class="badge bg-danger live-badge">● LIVE</span>
+            </h2>
+            <div id="liveScoresContainer">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted mt-3">Chargement des scores en direct...</p>
+                </div>
+            </div>
+        </div>
+        
+        <hr class="my-4">
+        
+        <!-- Rooms Management Section -->
+        <div class="p-4">
+            <h2 class="mb-3"><i class="bi bi-building"></i> Rooms & Gestion Joueurs</h2>
+            <div id="roomsContainer">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted mt-3">Chargement des rooms...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const API_BASE = 'http://127.0.0.1:8080/admin';
+        
+        const STATE_COLORS = {
+            'WAITING': 'warning',
+            'STARTING': 'info',
+            'PLAYING': 'success',
+            'GAME_OVER': 'danger',
+            'FINISHED': 'secondary'
+        };
+        
+        // --- Chargement scores en direct ---
+        function loadLiveScores() {
+            fetch(`${API_BASE}/live_scores`)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                    return r.json();
+                })
+                .then(data => renderLiveScores(data.rooms))
+                .catch(e => {
+                    console.error('[Admin] Error loading live scores:', e);
+                    document.getElementById('liveScoresContainer').innerHTML = 
+                        '<p class="text-center text-muted py-4">Aucune partie en cours</p>';
+                });
+        }
+        
+        function renderLiveScores(rooms) {
+            const container = document.getElementById('liveScoresContainer');
+            
+            if (!rooms || rooms.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted py-4">Aucune partie en cours</p>';
+                return;
+            }
+            
+            let html = '';
+            rooms.forEach(room => {
+                const badgeColor = STATE_COLORS[room.state_name] || 'secondary';
+                
+                html += `
+                    <div class="card room-card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong><i class="bi bi-joystick"></i> Room ${room.room_id}</strong>
+                                <span class="badge bg-${badgeColor} ms-2">${room.state_name}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            ${room.players && room.players.length > 0 ? `
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width: 60px;">Rang</th>
+                                                <th>Joueur</th>
+                                                <th class="text-end">Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${room.players
+                                                .sort((a, b) => b.score - a.score)
+                                                .map((p, index) => {
+                                                    const medals = ['🥇', '🥈', '🥉'];
+                                                    const medal = medals[index] || (index + 1);
+                                                    
+                                                    return `
+                                                        <tr>
+                                                            <td class="fs-4 text-center">${medal}</td>
+                                                            <td>
+                                                                <strong>${p.nickname}</strong>
+                                                                <small class="text-muted ms-1">(ID: ${p.player_id})</small>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <span class="score-value">${p.score.toLocaleString()}</span>
+                                                            </td>
+                                                        </tr>
+                                                    `;
+                                                }).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ` : '<p class="text-muted fst-italic mb-0">Aucun joueur</p>'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // --- Chargement rooms (administration) ---
+        function loadRooms() {
+            fetch(`${API_BASE}/rooms`)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                    return r.json();
+                })
+                .then(data => {
+                    updateStatusBar(data);
+                    renderRooms(data.rooms);
+                })
+                .catch(e => {
+                    console.error('[Admin] Error:', e);
+                    document.getElementById('roomsContainer').innerHTML = 
+                        `<div class="alert alert-danger">❌ Erreur de connexion au serveur<br><small>${e.message}</small></div>`;
+                    document.getElementById('serverStatus').textContent = '🔴';
+                });
+        }
+        
+        function updateStatusBar(data) {
+            document.getElementById('roomsCount').textContent = data.rooms.length;
+            const totalPlayers = data.rooms.reduce((sum, r) => sum + r.player_count, 0);
+            document.getElementById('playersCount').textContent = totalPlayers;
+            document.getElementById('serverStatus').textContent = '🟢';
+        }
+        
+        function renderRooms(rooms) {
+            const container = document.getElementById('roomsContainer');
+            
+            if (!rooms || rooms.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted py-5">Aucune room active</p>';
+                return;
+            }
+            
+            let html = '';
+            rooms.forEach(room => {
+                const badgeColor = STATE_COLORS[room.state_name] || 'secondary';
+                
+                html += `
+                    <div class="card room-card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong><i class="bi bi-joystick"></i> Room ${room.id}</strong>
+                                <span class="badge bg-${badgeColor} ms-2">${room.state_name}</span>
+                                <span class="text-muted ms-2">${room.player_count}/${room.max_players} joueurs</span>
+                            </div>
+                            <button class="btn btn-warning btn-sm" onclick="forceEndRoom(${room.id})">
+                                <i class="bi bi-stop-circle"></i> Forcer Fin
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            ${room.players && room.players.length > 0 ? `
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Joueur</th>
+                                                <th class="text-end">Score</th>
+                                                <th>Adresse IP</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${room.players.map(p => `
+                                                <tr>
+                                                    <td>
+                                                        <strong>${p.nickname}</strong>
+                                                        <small class="text-muted ms-1">(ID: ${p.player_id})</small>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span class="score-value">${p.score.toLocaleString()}</span>
+                                                    </td>
+                                                    <td><code class="text-muted">${p.ip}:${p.port}</code></td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-danger btn-sm" 
+                                                                onclick="kickPlayer(${p.player_id}, '${p.nickname}')">
+                                                            <i class="bi bi-person-x"></i> Kick
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ` : '<p class="text-muted fst-italic mb-0">Aucun joueur dans cette room</p>'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function forceEndRoom(roomId) {
+            if (!confirm(`⚠️ Vraiment forcer la fin de la Room ${roomId} ?`)) return;
+            
+            fetch(`${API_BASE}/room/${roomId}/force_end`, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`✅ Room ${roomId} terminée avec succès !`);
+                        setTimeout(loadAll, 500);
+                    } else {
+                        alert(`❌ Échec: ${data.message}`);
+                    }
+                })
+                .catch(e => alert(`❌ Erreur réseau: ${e.message}`));
+        }
+        
+        function kickPlayer(playerId, nickname) {
+            if (!confirm(`⚠️ Vraiment kicker ${nickname} (ID: ${playerId}) ?`)) return;
+            
+            fetch(`${API_BASE}/player/${playerId}/kick`, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`✅ ${nickname} a été kické avec succès !`);
+                        setTimeout(loadAll, 500);
+                    } else {
+                        alert(`❌ Échec: ${data.message}`);
+                    }
+                })
+                .catch(e => alert(`❌ Erreur réseau: ${e.message}`));
+        }
+        
+        function shutdownServer() {
+            if (!confirm('⚠️⚠️⚠️ VRAIMENT ÉTEINDRE LE SERVEUR ? ⚠️⚠️⚠️')) return;
+            
+            fetch(`${API_BASE}/shutdown`, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    alert('🛑 Serveur en cours d\'arrêt dans 2 secondes...');
+                    document.getElementById('serverStatus').textContent = '🔴';
+                })
+                .catch(e => alert(`❌ Erreur: ${e.message}`));
+        }
+        
+        function loadAll() {
+            loadLiveScores();
+            loadRooms();
+        }
+        
+        // Load initial data
+        loadAll();
+        
+        // Auto-refresh
+        setInterval(loadLiveScores, 2000); // Scores LIVE toutes les 2 secondes
+        setInterval(loadRooms, 5000);      // Rooms admin toutes les 5 secondes
+    </script>
+</body>
+</html>

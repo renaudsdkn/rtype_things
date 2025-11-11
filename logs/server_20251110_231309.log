@@ -1,0 +1,1437 @@
+
+╔═══════════════════════════════════════════════╗
+║          R-TYPE DEDICATED SERVER              ║
+╠═══════════════════════════════════════════════╣
+║  UDP Port (Game)  : 1234                      ║
+║  TCP Port (Chat)  : 1235                      ║
+║  HTTP Port (Admin): 8080                      ║
+╚═══════════════════════════════════════════════╝
+
+[THREAD RESEAU] Serveur UDP démarré sur le port 1234
+[GameManager] Initialisé.
+[MAIN] ✅ Serveur UDP initialisé (port 1234)
+[ChatServer] Serveur TCP créé sur port 1235
+[ChatManager] Initialisé.
+[ChatManager] ChatServer lié.
+[MAIN] ✅ Serveur TCP initialisé (port 1235)
+[AdminAPI] Initializing on port 8080...
+[AdminAPI] ✅ All endpoints registered
+[AdminAPI] ✅ Listening on http://127.0.0.1:8080
+[MAIN] ✅ AdminAPI démarré sur http://127.0.0.1:8080
+[MAIN] 🚀 Démarrage des threads...
+
+[MAIN] 🎮 Serveur en cours d'exécution...
+[MAIN] 💡 Appuyez sur Ctrl+C pour arrêter
+
+[THREAD CHAT] Démarré
+[THREAD UDP] Démarré
+[THREAD JEU] Démarré
+[THREAD JEU] Boucle de jeu démarrée.
+[FACTORY DEBUG] CONNECT désérialisé avec pseudo: 'dsdsd'
+[SERVER] CONNECT reçu de 127.0.0.1:57663 avec pseudo: 'dsdsd'
+[SERVER] Assigned ID 1 to player 127.0.0.1:57663
+[PlayerManager] Joueur 1 → Pseudo: 'dsdsd'
+[SERVER] Assigned ID 1 to player 127.0.0.1:57663 ('dsdsd')
+[GameManager] Joueur 1 ajouté au lobby.
+[ChatServer] Nouvelle connexion acceptée (fd: 10)
+[THREAD CHAT] 🟢 Nouvelle connexion
+[ChatServer] User 'dsdsd' registered (fd: 10)
+[THREAD CHAT] 👤 Connexion: 'dsdsd' (FD 10)
+[ChatManager] Connexion TCP: FD=10, Pseudo='dsdsd'
+[ChatManager] ✅ Mapping: FD 10 ↔ PlayerID 1 ('dsdsd')
+[FACTORY DEBUG] CREATE_ROOM désérialisé avec config:
+  - Nom: 'Ma Partiec'
+  - Difficulté: 1
+  - Max joueurs: 4
+[MSG HANDLER DEBUG] Config reçue:
+  - Nom: 'Ma Partiec'
+  - Difficulté: 1
+  - Max joueurs: 4
+[GameManager] Joueur 1 demande à créer une room avec config.
+[THREAD JEU] Room 1 créée avec config:
+  - Nom: Ma Partiec
+  - Difficulté: 1
+  - Max joueurs: 4
+  - Spawn interval: 5s
+[ENGINE] spawn_player() appelé pour ID 1 à position (100, 150)
+[ENGINE] Entité ECS créée: 0
+[ENGINE] ✅ Joueur spawné avec succès !
+[ENGINE]   - ID réseau: 1
+[ENGINE]   - Entité ECS: 0
+[ENGINE]   - Total joueurs actifs: 1
+[Room 1] ✅ Joueur 1 CONFIRMÉ dans Engine (entité 0)
+[Room 1] ✅ Joueur 1 ajouté. Total: 1
+[GameManager] Room 1 créée avec nom: 'Ma Partiec'
+[FACTORY DEBUG] CONNECT désérialisé avec pseudo: 'dsdsds'
+[SERVER] CONNECT reçu de 127.0.0.1:37814 avec pseudo: 'dsdsds'
+[SERVER] Assigned ID 2 to player 127.0.0.1:37814
+[PlayerManager] Joueur 2 → Pseudo: 'dsdsds'
+[SERVER] Assigned ID 2 to player 127.0.0.1:37814 ('dsdsds')
+[GameManager] Joueur 2 ajouté au lobby.
+[ChatServer] Nouvelle connexion acceptée (fd: 11)
+[THREAD CHAT] 🟢 Nouvelle connexion
+[ChatServer] User 'dsdsds' registered (fd: 11)
+[THREAD CHAT] 👤 Connexion: 'dsdsds' (FD 11)
+[ChatManager] Connexion TCP: FD=11, Pseudo='dsdsds'
+[ChatManager] ✅ Mapping: FD 11 ↔ PlayerID 2 ('dsdsds')
+[GameManager] Joueur 2 demande la liste des rooms.
+[GameManager] Joueur 2 demande à rejoindre la room 1.
+[GameManager] ✅ JOIN_ROOM_RESPONSE envoyé au joueur 2
+[ENGINE] spawn_player() appelé pour ID 2 à position (100, 200)
+[ENGINE] Entité ECS créée: 1
+[ENGINE] ✅ Joueur spawné avec succès !
+[ENGINE]   - ID réseau: 2
+[ENGINE]   - Entité ECS: 1
+[ENGINE]   - Total joueurs actifs: 2
+[Room 1] ✅ Joueur 2 CONFIRMÉ dans Engine (entité 1)
+[Room 1] ✅ Joueur 2 ajouté. Total: 2
+[Room 1] Démarrage programmé dans 500ms...
+[GameManager] ✅ Joueur 2 a rejoint la room 1 (état: 0)
+[Room 1] 🎮 La partie commence MAINTENANT avec 2 joueurs!
+[Room 1] 📡 GAME_STARTING diffusé
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 2
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 2 joueurs
+[GameManager] Déconnexion complète du joueur 2.
+[GameManager] Joueur 2 quitte la room 1.
+[ENGINE] Joueur remove (ID réseau: 2, Entité: 1)
+[THREAD JEU] Joueur 2 retiré de la Room 1
+[SERVER] Joueur 2 déconnecté (demande).
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[THREAD CHAT] 🔌 Client déconnecté (FD 11)
+[ChatManager] Déconnexion: FD 11 (PlayerID 2, 'Joueur2')
+[ChatServer] dsdsds left the chat
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[THREAD JEU] Room 1: Spawning enemy...
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[ENGINE] handle_input() appelé pour joueur 1
+[ENGINE] player_id_to_entity_map contient 1 joueurs
+[THREAD CHAT] 🔌 Déconnexion FD 10
+[ChatManager] Déconnexion: FD 10 (PlayerID 1, 'dsdsd')
+[ChatManager] Broadcast à Room 1 (1 joueurs)

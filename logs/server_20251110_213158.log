@@ -1,0 +1,71 @@
+
+╔═══════════════════════════════════════════════╗
+║          R-TYPE DEDICATED SERVER              ║
+╠═══════════════════════════════════════════════╣
+║  UDP Port (Game)  : 1234                      ║
+║  TCP Port (Chat)  : 1235                      ║
+║  HTTP Port (Admin): 8080                      ║
+╚═══════════════════════════════════════════════╝
+
+[THREAD RESEAU] Serveur UDP démarré sur le port 1234
+[GameManager] Initialisé.
+[MAIN] ✅ Serveur UDP initialisé (port 1234)
+[ChatServer] Serveur TCP créé sur port 1235
+[ChatManager] Initialisé.
+[ChatManager] ChatServer lié.
+[MAIN] ✅ Serveur TCP initialisé (port 1235)
+[AdminAPI] Initializing on port 8080...
+[AdminAPI] ✅ All endpoints registered
+[AdminAPI] ✅ Listening on http://127.0.0.1:8080
+[MAIN] ✅ AdminAPI démarré sur http://127.0.0.1:8080
+[MAIN] 🚀 Démarrage des threads...
+
+[THREAD UDP] Démarré
+[THREAD JEU] Démarré
+[THREAD JEU] Boucle de jeu démarrée.
+[THREAD CHAT] Démarré
+[MAIN] 🎮 Serveur en cours d'exécution...
+[MAIN] 💡 Appuyez sur Ctrl+C pour arrêter
+
+[ChatServer] Nouvelle connexion acceptée (fd: 10)
+[THREAD CHAT] 🟢 Nouvelle connexion
+[ChatServer] User 'Player' registered (fd: 10)
+[THREAD CHAT] 👤 Connexion: 'Player' (FD 10)
+[ChatManager] Connexion TCP: FD=10, Pseudo='Player'
+[ChatManager] ❌ Pseudo 'Player' inconnu (pas authentifié UDP ?)
+[FACTORY DEBUG] CONNECT désérialisé avec pseudo: 'dsjedke'
+[SERVER] CONNECT reçu de 127.0.0.1:43747 avec pseudo: 'dsjedke'
+[SERVER] Assigned ID 1 to player 127.0.0.1:43747
+[PlayerManager] Joueur 1 → Pseudo: 'dsjedke'
+[SERVER] Assigned ID 1 to player 127.0.0.1:43747 ('dsjedke')
+[GameManager] Joueur 1 ajouté au lobby.
+[FACTORY DEBUG] CREATE_ROOM désérialisé avec config:
+  - Nom: 'Ma Partiec'
+  - Difficulté: 1
+  - Max joueurs: 4
+[MSG HANDLER DEBUG] Config reçue:
+  - Nom: 'Ma Partiec'
+  - Difficulté: 1
+  - Max joueurs: 4
+[GameManager] Joueur 1 demande à créer une room avec config.
+[THREAD JEU] Room 1 créée avec config:
+  - Nom: Ma Partiec
+  - Difficulté: 1
+  - Max joueurs: 4
+  - Spawn interval: 5s
+[ENGINE] spawn_player() appelé pour ID 1 à position (100, 150)
+[ENGINE] Entité ECS créée: 0
+[ENGINE] ✅ Joueur spawné avec succès !
+[ENGINE]   - ID réseau: 1
+[ENGINE]   - Entité ECS: 0
+[ENGINE]   - Total joueurs actifs: 1
+[Room 1] ✅ Joueur 1 CONFIRMÉ dans Engine (entité 0)
+[Room 1] ✅ Joueur 1 ajouté. Total: 1
+[GameManager] Room 1 créée avec nom: 'Ma Partiec'
+[GameManager] Déconnexion complète du joueur 1.
+[GameManager] Joueur 1 quitte la room 1.
+[ENGINE] Joueur remove (ID réseau: 1, Entité: 0)
+[THREAD JEU] Joueur 1 retiré de la Room 1
+[SERVER] Joueur 1 déconnecté (demande).
+[THREAD CHAT] 🔌 Client déconnecté (FD 10)
+[ChatManager] Déconnexion FD 10 (non mappé)

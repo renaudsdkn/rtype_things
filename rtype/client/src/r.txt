@@ -1,0 +1,13 @@
+ for (const auto &entity : snapData.entities)
+            {
+                // Affiche les informations de chaque entité
+                // Note : Les données comme 'id' sont déjà dans l'ordre de l'hôte grâce à la factory
+                /*std::cout << "    - ID: " << entity.id
+                          << ", T: " << static_cast<int>(entity.type)          // Affiche le type comme un nombre
+                          << ", P: (" << entity.x << ", " << entity.y << ")"   // Affiche la position
+                          << ", V: (" << entity.vx << ", " << entity.vy << ")" // Affiche la vélocité
+                          << ", Dmg: " << static_cast<int>(entity.damage)      // Affiche les dégâts
+                          << ", XP: " << static_cast<int>(entity.xp)           // Affiche l'XP
+                          << ", Lvl: " << static_cast<int>(entity.level)       // Affiche le niveau
+                          << std::endl;*/
+            }
